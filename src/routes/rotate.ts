@@ -3,6 +3,7 @@ import { GIF, decode, Frame, Image } from "imagescript";
 export const route = {
     method: "get",
     execute: async (req, res) => {
+        try{
         const { image, degrees } = req.query;
         if (!image) return res.send({
             message: "Please provide an image url with the query param 'image'"
@@ -25,6 +26,10 @@ export const route = {
                 .setHeader("content-Type", "image/png")
                 .send(Buffer.from(rImage, 'base64'))
         };
-
+        } catch (err) {
+            return res.send({
+                message: "Something went wrong..."
+            })
+        }
     }
 }
